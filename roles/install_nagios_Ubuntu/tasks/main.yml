@@ -1,0 +1,17 @@
+---
+- name: Install Nagios packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nagios3
+    - nagios-nrpe-plugin
+    - nagios-plugins-contrib
+    - nagios-plugins
+
+- name: Enable and start Nagios (Ubuntu)
+  systemd:
+    name: nagios3
+    enabled: yes
+    state: started
+  when: ansible_distribution == "Ubuntu"

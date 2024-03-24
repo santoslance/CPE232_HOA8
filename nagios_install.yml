@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    yum:
+      name: "*"
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: install_nagios_CentOS
+  become: true
+  roles:
+    - name: install_nagios_CentOS
+
+- hosts: install_nagios_Ubuntu
+  become: true
+  roles:
+    - name: install_nagios_Ubuntu
